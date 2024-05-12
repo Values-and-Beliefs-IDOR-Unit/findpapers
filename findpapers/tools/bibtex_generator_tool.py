@@ -115,7 +115,14 @@ def generate_bibtex(search_path: str, outputpath: str, only_selected_papers: Opt
                 
             # New code to add keywords
             if paper.keywords is not None:
-                bibtex_output += f"{default_tab}keywords = {{{paper.keywords}}},\n"
+                # Clean each keyword to remove unwanted 'N ' prefix and strip extra whitespace
+                cleaned_keywords = [keyword.replace("N ", "").strip() for keyword in paper.keywords]
+                # Joins the keywords with a comma if there are any keywords
+                formatted_keywords = ", ".join(cleaned_keywords)
+                bibtex_output += f"{default_tab}keywords = {{{formatted_keywords}}},\n"
+            else:
+                bibtex_output += f"{default_tab}keywords = {{NA}},\n"
+              
             # End of new code
 
             bibtex_output = bibtex_output.rstrip(
