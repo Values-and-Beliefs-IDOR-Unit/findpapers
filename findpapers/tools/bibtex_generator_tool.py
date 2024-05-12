@@ -104,6 +104,20 @@ def generate_bibtex(search_path: str, outputpath: str, only_selected_papers: Opt
             if paper.pages is not None:
                 bibtex_output += f"{default_tab}pages = {{{paper.pages}}},\n"
 
+            # New code to add the abstract
+            if paper.abstract is not None:
+                sanitized_abstract = paper.abstract.replace("\n", " ").replace("\r", " ")
+                bibtex_output += f"{default_tab}abstract = {{{sanitized_abstract}}},\n"
+
+            # New code to add DOI
+            if paper.doi is not None:
+                bibtex_output += f"{default_tab}doi = {{{paper.doi}}},\n"
+                
+            # New code to add keywords
+            if paper.keywords is not None:
+                bibtex_output += f"{default_tab}keywords = {{{paper.keywords}}},\n"
+            # End of new code
+
             bibtex_output = bibtex_output.rstrip(
                 ",\n") + "\n"  # removing last comma
 
